@@ -23,6 +23,10 @@ Later better customization will be released
 
  a single objective, do a single and specific route.
 
+### 0.0.1+1
+
+    a single objective, do a single and specific route + Click point config, Multiple Screen Sizes supported now!
+
 ### 0.0.2
 
 #### In Progress

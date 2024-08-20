@@ -6,6 +6,127 @@ pyautogui.PAUSE = 2
 # pyautogui.FAILSAFE = True
 
 
+def get_porcentaem_exp(level):
+    if level < 9:
+        return 1.19
+    elif level < 16:
+        return 1.19
+    elif level < 23:
+        return 2.30
+    elif level < 30:
+        return 2.23
+    elif level < 37:
+        return 1.90
+    elif level < 44:
+        return 2.08
+    elif level < 51:
+        return 1.94
+    elif level < 58:
+        return 1.95
+    elif level < 65:
+        return 1.94
+    elif level < 72:
+        return 1.94
+    elif level < 79:
+        return 1.95
+    elif level < 86:
+        return 1.96
+    elif level < 93:
+        return 1.96
+    elif level < 100:
+        return 1.96
+    else:
+        return 1.8
+
+
+def get_media_mapa(mapa):
+    match mapa:
+        case 1:
+            return 4
+        case 11:
+            return 43
+        case 20:
+            return 85
+        case 33:
+            return 150
+        case 50:
+            return 250
+        case 72:
+            return 400
+        case 80:
+            return 500
+        case 92:
+            return 600
+        case 93:
+            return 650
+
+
+def get_hunt_targets(level):
+    if level < 9:
+        return 6
+    elif level < 16:
+        return 7
+    elif level < 23:
+        return 8
+    elif level < 30:
+        return 9
+    elif level < 37:
+        return 10
+    elif level < 44:
+        return 11
+    elif level < 51:
+        return 12
+    elif level < 58:
+        return 13
+    elif level < 65:
+        return 14
+    elif level < 72:
+        return 15
+    elif level < 79:
+        return 16
+    elif level < 86:
+        return 17
+    elif level < 93:
+        return 18
+    elif level < 100:
+        return 19
+    else:
+        return 20
+
+
+def get_hunt_expToNextBP(level):
+    if level < 9:
+        return 1584
+    elif level < 16:
+        return 1889
+    elif level < 23:
+        return 4338
+    elif level < 30:
+        return 9670
+    elif level < 37:
+        return 18379
+    elif level < 44:
+        return 38190
+    elif level < 51:
+        return 73966
+    elif level < 58:
+        return 144029
+    elif level < 65:
+        return 279813
+    elif level < 72:
+        return 543361
+    elif level < 79:
+        return 1061872
+    elif level < 86:
+        return 2079297
+    elif level < 93:
+        return 4066272
+    elif level < 100:
+        return 7972566
+    else:
+        return 0
+
+
 def salvar_Pos_Farm(Battle_Button, Battle_Base_Hunt, Battle_One_Liner, Battle_Two_Liner, Kill_Button_Offset=130):
     Battle_Button_list = list(Battle_Button)
     Battle_Base_Hunt_list = list(Battle_Base_Hunt)
@@ -75,6 +196,11 @@ def salvar_Cacada(speed=1, mobs=2, espera=60, pool="n", linhasPrevias=0):
 
 
 def configurar():
+    nova_Battle_button = (74, 880)
+    nova_Battle_Base_Hunt = (872, 269)
+    nova_Battle_One_Liner = (1146, 225)
+    nova_Battle_Two_Liner = (1146, 310)
+
     print("o que quer configurar? \n1 - Posições de caçada \n2 - Configurações de caçada \n3 - Posições de Farm \n4 - Configurações de Farm")
     opcao = int(input("Digite a opção desejada: "))
     # To Do agora!
@@ -100,36 +226,38 @@ def configurar():
             else:
                 Battle_button = (74, 880)
             confirmacao = "potato"
-            confirmacao = input(
+            confirmacao1 = input(
                 "Deseja alterar a pos do botão de caçada (central)? s ou n: ")
-            if confirmacao == "s":
+            if confirmacao1 == "s":
                 print("Aguarde "+str(tempo)+" segundos")
                 pyautogui.sleep(tempo)
                 Battle_Base_Hunt = pyautogui.position()
             else:
                 Battle_Base_Hunt = (872, 269)
             confirmacao = "potato"
-            confirmacao = input(
+            confirmacao2 = input(
                 "Deseja alterar a pos do botão de caçada? s ou n: ")
-            if confirmacao == "s":
-                quantidade = input(
-                    "Quantos Mobs aparecem? menos que 8 ou 9 a 16?")
-                if quantidade == 1:
+            if confirmacao2 == "s":
+                linha_a_alterar = input(
+                    "Qual Linha Vai mudar\n1- 1° linha\n2- 2° linha?")
+                if linha_a_alterar == 1:
                     print("Aguarde "+str(tempo)+" segundos")
                     pyautogui.sleep(tempo)
-                    Battle_One_Liner = pyautogui.position()
-                    Battle_Two_Liner = Battle_One_Liner[0], Battle_One_Liner[1]+55
-                if quantidade == 2:
+                    linha_a_alterarBattle_One_Liner = pyautogui.position()
+                    nova_Battle_Two_Liner = (
+                        Battle_One_Liner[0], Battle_One_Liner[1]+55)
+                if linha_a_alterar == 2:
                     print("Aguarde "+str(tempo)+" segundos")
                     pyautogui.sleep(tempo)
                     Battle_Two_Liner = pyautogui.position()
-                    Battle_One_Liner = Battle_Two_Liner[0], Battle_Two_Liner[1]-55
+                    nova_Battle_One_Liner = (
+                        Battle_Two_Liner[0], Battle_Two_Liner[1]-55)
             else:
-                Battle_One_Liner = (1146, 225)
-                Battle_Two_Liner = (1146, 310)
+                nova_Battle_One_Liner = (1146, 225)
+                nova_Battle_Two_Liner = (1146, 310)
             print("Salvando...")
             salvar_Pos_Cacada(Battle_button, Battle_Base_Hunt,
-                              Battle_One_Liner, Battle_Two_Liner)
+                              nova_Battle_One_Liner, nova_Battle_Two_Liner)
 
     # Feito
     if opcao == 2:
@@ -329,6 +457,102 @@ def coletar():
 
 def farmar():
     print("Em testes!! use por sua conta e risco")
+    # testar se a configuração existe
+    try:
+        with open("config_Farm_pos.json", "r") as jsonFile:
+            # Read the file contents
+            config_data = jsonFile.read()
+
+            print("Configuração encontrada")
+            print(config_data)
+
+            # Load the JSON data into a dictionary
+            # Use json.loads() for string data
+            config = json.loads(config_data)
+
+            Battle_Button_loaded = config["Battle_Button"]
+            Battle_Base_Hunt = config["Battle_Base_Hunt"]
+            Battle_One_Liner = config["Battle_One_Liner"]
+            Battle_Two_Liner = config["Battle_Two_Liner"]
+            Kill_Button_Offset = config["Kill_Button_Offset"]
+    except FileNotFoundError:
+        Battle_button = (74, 880)
+        Battle_Base_Hunt = (872, 269)
+        Battle_One_Liner = (1146, 225)
+        Battle_Two_Liner = (1146, 310)
+        Kill_Button_Offset = 130
+        salvar_Pos_Farm(Battle_button, Battle_Base_Hunt,
+                        Battle_One_Liner, Battle_Two_Liner, Kill_Button_Offset)
+        print("Configuração de Pos para Farm não encontrada, e gerada automaticamente com valores padrão")
+
+    try:
+        with open("config_farm.json", "r") as jsonFile:
+            # ler o arquivo
+            config_data = jsonFile.read()
+            print("Configuração encontrada")
+            print(config_data)
+            config = json.loads(config_data)
+            speed = config["speed"]
+            mobs = config["mobs"]
+            kills = config["kills"]
+            LvCombate = config["LvCombate"]
+            LvCacada = config["LvCacada"]
+            PorcentagemCombate = config["PorcentagemCombate"]
+            PorcentagemCacada = config["PorcentagemCacada"]
+            MapaAtual = config["MapaAtual"]
+    except FileNotFoundError:
+        # No caso de não encontrar, fazemos uma como padrão
+        print("Configuração não encontrada")
+        print("Configurando de forma padrão! Evite usar!")
+        speed = 2
+        mobs = 2
+        kills = 6
+        LvCombate = 40
+        LvCacada = 45
+        PorcentagemCombate = 50
+        PorcentagemCacada = 50
+        MapaAtual = 1
+        print("Configuração completa")
+        salvar_Farm(speed, mobs, kills, LvCombate, LvCacada,
+                    PorcentagemCombate, PorcentagemCacada, MapaAtual)
+
+    try:
+        # procurar por uma config_hunt
+        with open("config_caca.json", "r") as jsonFile:
+            config_data = jsonFile.read()
+            config = json.loads(config_data)
+            espera = config["espera"]
+    except FileNotFoundError:
+        espera = 65
+        print("Configuração de caçada não encontrada, usando valor padrão")
+        print("Não recomendado!! tempo de caçada:"+espera)
+    runs = 0
+    print("Começando em 3 segundos")
+    pyautogui.sleep(3)
+    print("Para parar aperte Ctrl + C ou mova o mouse para o canto superior esquerdo")
+    print("Entrando na Aba de Batalha")
+    pyautogui.click(Battle_Button_loaded)
+    pyautogui.sleep(1*speed)
+    print("Existem Mobs Caçados?")
+    mobs_caçados = input(
+        "n - Para sem mobs\n1 -para 1 linha\n2 - duas linhas")
+    if mobs_caçados == "n":
+        pyautogui.click(Battle_Base_Hunt)
+        pyautogui.sleep(1*speed)
+        pyautogui.sleep(espera)
+    elif mobs_caçados == "1":
+        pyautogui.click(Battle_One_Liner)
+        pyautogui.sleep(1*speed)
+        pyautogui.sleep(espera)
+    elif mobs_caçados == "2":
+        pyautogui.click(Battle_Two_Liner)
+        pyautogui.sleep(1*speed)
+        pyautogui.sleep(espera)
+    else:
+        print("Opção inválida")
+    # Ok, agora com os Mobs resetados, vamos começar a farmar
+    # primeiro pegamos o número de mobs que podemos achar e matar, além disso pegamos pro rumo quantas runs até o próximo BP
+   # temos que setar: quantos mobs por linha, quantos mobs por caçada, quantas kills por botão de matar geral. isso para ser simples
 
 
 def main():
@@ -347,10 +571,13 @@ def main():
 
         if opcao == "1":
             cacar()
+            # print("Em desenvolvimento")
         elif opcao == "2":
-            coletar()
+            # coletar()
+            print("Em desenvolvimento")
         elif opcao == "3":
-            farmar()
+            # farmar()
+            print("Em desenvolvimento")
         elif opcao == "0":
             configurar()
         elif opcao == "8":
